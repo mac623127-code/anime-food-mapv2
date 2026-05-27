@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>成都美食地图</title>
+
+  <style>
+    html,
+    body,
+    #map {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <script src="https://webapi.amap.com/maps?v=1.4.15&key=754c7308102647e8b08339aca65c666b"></script>
+</head>
+
+<body>
+
+  <div id="map"></div>
+
+
+<script>
+
+  // 创建地图
+  const map = new AMap.Map('map', {
+
+  zoom: 15,
+
+  center: [104.0668, 30.5728],
+
+  
+
+
+});
+
+  // 餐厅数据
+  const restaurants = [
+
+    {
+  name: '家常味(东方新城生活广场店)',
+  position: [104.102388,30.640822],
+  dishes: '素椒杂酱',
+  desc: '我心目中的杂酱面天花板，加一份干哨，风味更佳。'
+    },
+
+    {
+      name: '铁门杂酱面',
+      position: [104.10657,30.640667],
+      dishes: '杂酱面',
+      desc: '仅次于家常味，有时候吃腻了家常味，就吃这家，分量比家常味大一些，3两=家常味4两，辣度低于家常味。'
+    },
+
+    {
+      name: '谢记海味面',
+      position: [104.116893,30.655433],
+      dishes: '双绍面，海味面，排骨面',
+      desc: '价格不算便宜的路边摊，份量也偏小，味道还可以'
+    },
+
+    {
+      name: '脆绍面（一环路店）',
+      position: [104.102127,30.661395],
+      dishes: '脆绍面',
+      desc: '只吃过他家脆绍面，咸鲜味型稍微带一点甜口，也是属于老味道的脆绍面了'
+    },
+
+    {
+      name: '二号桥脆绍面',
+      position: [104.08314,30.684959],
+      dishes: '脆绍面',
+      desc: '有点偏甜口的杂酱面，还是可以'
+    },
+
+    {
+      name: '香味面',
+      position: [104.094965,30.658117],
+      dishes: '豇豆面，蒸蛋',
+      desc: '偏甜口的豇豆杂酱面，好吃，但是现在涨价了，有点小贵'
+    },
+
+    {
+      name: '清真特色牛肉面',
+      position: [104.045528,30.686295],
+      dishes: '牛肉面',
+      desc: '老成都口味的原汤红烧牛肉面，颇有小时候的味道'
+    },
+
+    {
+      name: '怪味面',
+      position: [104.073301,30.637755],
+      dishes: '怪味面，鸡杂面',
+      desc: '很多年的老面馆了，鸡杂令我最惊艳，处理得很好，原汤，而且一点不腥，怪味面也好吃，但是很多人吃不来怪味这种酸辣味型，'
+    },
+    
+    {
+    name: '拜哥牛肉面',
+      position: [104.109679,30.657373],
+      dishes: '特色牛肉面，特色牛筋面',
+      desc: '很多年的老面馆了，特色是重庆风格的偏重口麻辣的原汤牛肉牛筋面，加了火锅底料一起炒制的，我很喜欢，但是对于有些人来说，香料味可能过重了点，'
+    },
+
+   {
+    name: '左撇子私房面',
+      position: [104.100619,30.633164],
+      dishes: '杂酱面',
+      desc: '只有豇豆杂酱面，咸鲜口味，只卖到下午两点就收摊'
+    },
+
+    {
+    name: '无名小面',
+      position: [104.105572,30.667215],
+      dishes: '排骨，牛肉，歪素椒',
+      desc: '以前钻石广场上班的时候喜欢来吃，老味道，价格实惠'
+    },
+
+{
+    name: '牛王庙全味面（踏水桥北街店）',
+      position: [104.102645,30.678033],
+      dishes: '鱼香排骨，豇豆面，素椒面，海味面',
+      desc: '几个老成都开的，所有口味基本不踩雷'
+    },
+
+{
+    name: '东饮家常味',
+      position: [104.109725,30.657315],
+      dishes: '红油杂酱面',
+      desc: '家常味的下位替代者吧，整体味型和家常味还是很接近的，吃它的杂酱必须要加干绍，因为它家湿哨子比家常味要稀一些'
+    },
+
+{
+    name: '鸡汤铺盖面（红光小区店）',
+      position: [104.105675,30.667275],
+      dishes: '杂酱铺盖，排骨铺盖，牛肉铺盖',
+      desc: '个人觉得不输北大铺盖面，铺盖面的厚薄合适且入味，汤底原汤'
+    },
+
+    {
+      name: '同一口锅家常面',
+      position: [104.121098,30.651961],
+      dishes: '排骨面，酸菜面，海味面',
+      desc: '整体来说，性价比还是可以，味道中规中矩，有社区老面馆应由的水平，但是不惊艳，日常对付一口，没有任何问题'
+    },
+
+  ];
+
+  // 循环生成 marker
+  restaurants.forEach(function (restaurant) {
+
+    const marker = new AMap.Marker({
+
+      position: restaurant.position,
+
+      title: restaurant.name
+
+    });
+
+    map.add(marker);
+
+    const infoWindow = new AMap.InfoWindow({
+
+      content: `
+        <div style="padding:10px;">
+          <h3>${restaurant.name}</h3>
+          <p>推荐：${restaurant.dishes}</p>
+          ${restaurant.price ? `<p>人均：${restaurant.price}</p>` : ''}
+          <p>评价：${restaurant.desc}</p>
+        </div>
+      `,
+
+      offset: new AMap.Pixel(0, -30)
+
+    });
+
+    marker.on('click', function () {
+
+      infoWindow.open(map, marker.getPosition());
+
+    });
+
+  });
+
+  // 加载定位插件
+  AMap.plugin('AMap.Geolocation', function () {
+
+    const geolocation = new AMap.Geolocation({
+
+      enableHighAccuracy: true,
+
+      timeout: 10000,
+
+      position: 'RB'
+
+    });
+
+    // 添加定位控件
+    map.addControl(geolocation);
+
+    // 获取当前位置
+    geolocation.getCurrentPosition(function (status, result) {
+
+      if (status === 'complete') {
+
+        console.log('定位成功');
+
+        console.log(result.position);
+
+      } else {
+
+        console.log('定位失败');
+
+        console.log(result);
+
+      }
+
+    });
+
+  });
+
+</script>
+
+</body>
+
+</html>
